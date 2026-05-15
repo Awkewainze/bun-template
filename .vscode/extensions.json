@@ -1,0 +1,16 @@
+{
+	"recommendations": [
+		"oven.bun-vscode",
+		"bruno-api-client.bruno",
+		"streetsidesoftware.code-spell-checker",
+		"editorconfig.editorconfig",
+		"dbaeumer.vscode-eslint",
+		"yoavbls.pretty-ts-errors",
+		"prisma.prisma",
+		"mkhl.shfmt",
+		"bradlc.vscode-tailwindcss",
+		"redhat.vscode-yaml",
+		"tamasfe.even-better-toml",
+		"edwinhuish.better-comments-next"
+	]
+}

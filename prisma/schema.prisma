@@ -1,0 +1,77 @@
+// Docs: https://pris.ly/d/prisma-schema
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id        String   @id @default(uuid(7))
+    name      String
+    username  String
+    email     String?
+    locale    String
+    timezone  String
+    createdAt DateTime @default(now()) @map("created_at")
+
+    userAuthentications UserAuthentication[]
+
+    @@map("users")
+}
+
+enum UserAuthenticationType {
+    Password @map("password")
+    OIDC     @map("oidc")
+
+    @@map("user_authentication_type")
+}
+
+model UserAuthentication {
+    id                     String                 @id @default(uuid(7))
+    user                   User                   @relation(fields: [userId], references: [id])
+    userId                 String                 @map("user_id")
+    userAuthenticationType UserAuthenticationType @map("user_authentication_type")
+
+    password  String?
+    idp       String? // OpenID Provider
+    sub       String?
+    createdAt DateTime @default(now()) @map("created_at")
+
+    @@map("user_authentication")
+}
+
+enum Severity {
+    Functional @map("functional")
+    Error      @map("error")
+    Warn       @map("warn")
+    Info       @map("info")
+    Http       @map("http")
+    Verbose    @map("verbose")
+    Debug      @map("debug")
+    Silly      @map("silly")
+
+    @@map("event_severity")
+}
+
+model Event {
+    id            String   @id @default(uuid(7))
+    correlationId String   @default(uuid(7)) @map("correlation_id")
+    eventTime     DateTime @default(now()) @map("event_time")
+    type          String?
+    scope         String?
+    message       String
+    meta          Json?
+    severity      Severity
+
+    @@map("events")
+}
+
+model KVStore {
+    key   String @id @default(uuid(7))
+    value Json
+
+    @@map("key_value_store")
+}

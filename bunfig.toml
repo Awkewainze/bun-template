@@ -1,0 +1,31 @@
+#:schema bunfig.toml
+
+[install]
+# Only install package versions published at least 30 days ago
+minimumReleaseAge = 2592000 # seconds
+
+[serve.static]
+env     = "BUN_PUBLIC_*"
+plugins = ["bun-plugin-tailwind"]
+
+[test]
+coverage = true
+coverageDir = "./coverage"
+coveragePathIgnorePatterns = [
+	"**/*.spec.ts",
+	"**/*.test.ts",
+	"src/utils/**",
+	"*.config.js",
+	"*.config.ts",
+	"dist/**",
+	"build/**",
+	"generated/**",
+	"**/*.generated.ts",
+	"src/types/**",
+	"prisma/**",
+]
+coverageReporter = ["text", "lcov"]
+coverageSkipTestFiles = true
+preload = ["./tests/dom-setup.ts", "./tests/test-setup.ts"]
+randomize = true
+root = "tests"

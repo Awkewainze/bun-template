@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:14.22-trixie
+    ports:
+      - ${POSTGRES_PORT}:5432
+    env_file: .env
+    volumes:
+      - ./db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    env_file: .env
+    ports:
+      - "${BUN_PORT:-3000}:${BUN_PORT:-3000}"

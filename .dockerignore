@@ -1,0 +1,13 @@
+node_modules
+generated/prisma
+dist
+coverage
+db_data
+
+.env
+.env.*
+!.env.example
+
+.git
+.vscode
+*.md
